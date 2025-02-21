@@ -158,6 +158,7 @@ mocha.describe('readings API', () => {
 
 				// Add C10 here
 
+<<<<<<< HEAD
 				mocha.it('C11: 1 day shift end 2022-10-31 17:00:00 for 15 minute reading intervals and quantity units & kWh as BTU reverse conversion', async () => {
 					const unitData = [
 						// adding units u1, u2, u3, u16
@@ -172,6 +173,22 @@ mocha.describe('readings API', () => {
 							displayable: Unit.displayableType.ALL, 
 							preferredDisplay: true, 
 							note: 'OED created standard unit'
+=======
+				// Add C11 here
+				mocha.it('C11: 1 day shift end 2022-10-31 17:00:00 for 15 minute reading intervals and quantity units & kWh as BTU reverse conversion', async () => {
+					const unitData = [
+						// adding units u1, u2, u3, u16
+						{ 
+						    //u1	
+						    name: 'kWh',
+						    identifier: '',
+						    unitRepresent: Unit.unitRepresentType.QUANTITY,
+						    secInRate: 3600,
+						    typeOfUnit: Unit.unitType.UNIT,
+						    suffix: '', 
+						    displayable: Unit.displayableType.ALL,
+						    preferredDisplay: true, note: 'OED created standard unit' 
+>>>>>>> 256d86a6 (completed)
 						},
 						{
 							//u2
@@ -185,6 +202,7 @@ mocha.describe('readings API', () => {
 							preferredDisplay: false,
 							note: 'special unit'
 						},
+<<<<<<< HEAD
 						{
 							// u3
 							name: 'MJ', 
@@ -208,12 +226,42 @@ mocha.describe('readings API', () => {
 					];
 					const conversionData = [
 						// adding conversions c1, c2, c3
+=======
+						{   
+							//u3
+							name: 'MJ', 
+							identifier: 'megaJoules',
+							unitRepresent: Unit.unitRepresentType.QUANTITY,
+							secInRate: 3600, 
+							typeOfUnit: Unit.unitType.UNIT, 
+							suffix: '', 
+							displayable: Unit.displayableType.ALL, 
+							preferredDisplay: false, note: 'MJ' 
+						},
+						{ 
+							//u16
+							name: 'BTU', identifier: '',
+							unitRepresent: Unit.unitRepresentType.QUANTITY, 
+							secInRate: 3600, typeOfUnit: Unit.unitType.UNIT, 
+							suffix: '', 
+							displayable: Unit.displayableType.ALL, 
+							preferredDisplay: true, 
+							note: 'OED created standard unit' }
+					];
+				
+					const conversionData = [
+						// adding conversions c11, c12, c13, c14
+>>>>>>> 256d86a6 (completed)
 						{
 							// c1
 							sourceName: 'Electric_Utility', 
 							destinationName: 'kWh', 
+<<<<<<< HEAD
 							bidirectional: false, 
 							slope: 1, 
+=======
+							bidirectional: false, slope: 1, 
+>>>>>>> 256d86a6 (completed)
 							intercept: 0, 
 							note: 'Electric_Utility → kWh' 
 						},
@@ -233,6 +281,7 @@ mocha.describe('readings API', () => {
 							bidirectional: true, 
 							slope: 947.8, 
 							intercept: 0, 
+<<<<<<< HEAD
 							note: 'MJ → BTU' 
 						},
 	
@@ -327,6 +376,12 @@ mocha.describe('readings API', () => {
 							note: 'CO₂ → kg'
 						}
 					];
+=======
+							note: 'MJ → BTU'
+						}
+					];
+
+>>>>>>> 256d86a6 (completed)
 					const meterData = [
 						{
 							name: 'Electric Utility pound of CO₂',
@@ -340,6 +395,7 @@ mocha.describe('readings API', () => {
 							id: METER_ID
 						}
 					];
+<<<<<<< HEAD
 					// Prepare test with the standard data
 					await prepareTest(unitData, conversionData, meterData);
 					// Get the unit ID since the DB could use any value.
@@ -353,6 +409,25 @@ mocha.describe('readings API', () => {
 						shift: 'P1D',
 						graphicUnitId: unitId
 					});
+=======
+				
+					await prepareTest(unitData, conversionData, meterData);
+				
+					const unitId = await getUnitId('BTU');
+				
+					const expected = [10645752.224022, 11490184.2415072];
+				
+					const res = await chai.request(app).get(`/api/compareReadings/meters/${METER_ID}`)
+						.query({
+							curr_start: '2022-10-31 00:00:00',
+							curr_end: '2022-10-31 17:00:00',
+							shift: 'P1D',
+							graphicUnitId: unitId
+						});
+				
+					expectCompareToEqualExpected(res, expected);
+				});
+>>>>>>> 256d86a6 (completed)
 
 					expectCompareToEqualExpected(res, expected);
 				});
